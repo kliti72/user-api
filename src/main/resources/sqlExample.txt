@@ -1,0 +1,26 @@
+INSERT INTO users (name, surname, password, register_date, last_access) VALUES
+('Alice', 'Rossi', 'password1', '2023-09-01', '2023-09-10'),
+('Bob', 'Bianchi', 'password2', '2023-08-25', '2023-09-11'),
+('Charlie', 'Verdi', 'password3', '2023-09-02', '2023-09-11'),
+('Diana', 'Neri', 'password4', '2023-09-03', '2023-09-10'),
+('Eva', 'Blu', 'password5', '2023-09-04', '2023-09-11');
+
+INSERT INTO roles (name, assign_role_by, assigned_by_user_id) VALUES
+('ADMIN', 'Sistema', 1),  -- Alice ha assegnato il ruolo
+('USER', 'Sistema', 1),   -- Alice ha assegnato il ruolo
+('MODERATOR', 'Sistema', 2),  -- Bob ha assegnato il ruolo
+('EDITOR', 'Sistema', 3),  -- Charlie ha assegnato il ruolo
+('VIEWER', 'Sistema', 4);  -- Diana ha assegnato il ruolo
+
+    INSERT INTO users_role (users_id, roles_id) VALUES
+    (1, 1),  -- Alice è ADMIN
+    (2, 2),  -- Bob è USER
+    (3, 3),  -- Charlie è MODERATOR
+    (4, 4),  -- Diana è EDITOR
+    (5, 5),  -- Eva è VIEWER
+
+    (2, 1),  -- Bob ha anche il ruolo di ADMIN
+    (3, 2),  -- Charlie ha anche il ruolo di USER
+    (4, 3),  -- Diana ha anche il ruolo di MODERATOR
+    (5, 2);  -- Eva ha anche il ruolo di USER
+

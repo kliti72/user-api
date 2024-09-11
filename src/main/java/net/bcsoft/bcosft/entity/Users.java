@@ -6,16 +6,28 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
     String name;
 
+    @Column(name = "surname")
+    String surname;
+
+    @Column(name = "password")
+    String password;
+
+    @Column(name = "registerDate")
+    String registerDate;
+
+    @Column(name = "lastAccess")
+    String lastAccess;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "EMPLOYEE_PROJECT_MAPPING", joinColumns = @JoinColumn(name = "users_id"),
+    @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
