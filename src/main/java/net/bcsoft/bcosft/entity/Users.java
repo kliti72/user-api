@@ -26,10 +26,9 @@ public class Users {
     @Column(name = "lastAccess")
     private String lastAccess;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
-    private Set<Role> roles;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="roleId", referencedColumnName = "role_id")
+    private Role roleId;
 
     public long getId() {
         return id;
@@ -79,11 +78,11 @@ public class Users {
         this.lastAccess = lastAccess;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

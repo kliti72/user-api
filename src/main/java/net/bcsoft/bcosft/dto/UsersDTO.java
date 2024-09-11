@@ -14,7 +14,17 @@ public class UsersDTO {
     private String password;
     private String registerDate;
     private String lastAccess;
-    private Set<Role> roles;
+    private Long roleId;
+
+    public UsersDTO(long id, String name, String surname, String password, String registerDate, String lastAccess, Long roleId) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.registerDate = registerDate;
+        this.lastAccess = lastAccess;
+        this.roleId = roleId;
+    }
 
     public long getId() {
         return id;
@@ -64,12 +74,12 @@ public class UsersDTO {
         this.lastAccess = lastAccess;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     private Users toEntity () {
@@ -78,10 +88,12 @@ public class UsersDTO {
         user.setId(this.id);
         user.setName(this.name);
         user.setSurname(this.surname);
-        user.setRoles(this.roles);
+        user.setRoleId(this.roleId);
         user.setPassword(this.password);
         user.setLastAccess(this.lastAccess);
         user.setRegisterDate(this.registerDate);
         return user;
     }
+
+
 }

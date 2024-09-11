@@ -11,6 +11,14 @@ public class RoleDTO {
     private String assignRoleBy;
     private Users createBy;
 
+
+    public RoleDTO(long id, Users createBy, String assignRoleBy, String name) {
+        this.id = id;
+        this.createBy = createBy;
+        this.assignRoleBy = assignRoleBy;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
@@ -51,4 +59,5 @@ public class RoleDTO {
         role.setCreateBy(this.createBy);
         return role;
     }
+
 }
