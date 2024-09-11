@@ -13,11 +13,11 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+
     @Column(name = "assignRoleBy")
     private String assignRoleBy;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="assigned_by_user_id", referencedColumnName = "id")
     private Users createBy;
-
 }
