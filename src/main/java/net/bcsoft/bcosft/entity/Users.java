@@ -2,8 +2,6 @@ package net.bcsoft.bcosft.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "users")
 public class Users {
@@ -27,8 +25,8 @@ public class Users {
     private String lastAccess;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="roleId", referencedColumnName = "role_id")
-    private Role roleId;
+    @JoinColumn(name="roles_id", referencedColumnName = "id")
+    private Role role;
 
     public long getId() {
         return id;
@@ -78,11 +76,11 @@ public class Users {
         this.lastAccess = lastAccess;
     }
 
-    public Long getRoleId() {
-        return roleId;
+    public Role getRole() { // Corretto a "Role"
+        return role;
     }
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
+    public void setRole(Role role) { // Corretto a "Role"
+        this.role = role;
     }
 }

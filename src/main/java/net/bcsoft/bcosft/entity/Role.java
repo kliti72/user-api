@@ -1,4 +1,4 @@
-package net.bcsoft.bcosft.entity;
+package net.bcsoft.bcosft.entity;// Role.java
 
 import jakarta.persistence.*;
 
@@ -13,13 +13,9 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-
     @Column(name = "assignRoleBy")
     private String assignRoleBy;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="assigned_by_user_id", referencedColumnName = "id")
-    private Users createBy;
 
     public long getId() {
         return id;
@@ -45,11 +41,4 @@ public class Role {
         this.assignRoleBy = assignRoleBy;
     }
 
-    public Users getCreateBy() {
-        return createBy;
     }
-
-    public void setCreateBy(Users createBy) {
-        this.createBy = createBy;
-    }
-}

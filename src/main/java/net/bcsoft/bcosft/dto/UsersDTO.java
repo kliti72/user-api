@@ -88,7 +88,6 @@ public class UsersDTO {
         user.setId(this.id);
         user.setName(this.name);
         user.setSurname(this.surname);
-        user.setRoleId(this.roleId);
         user.setPassword(this.password);
         user.setLastAccess(this.lastAccess);
         user.setRegisterDate(this.registerDate);
