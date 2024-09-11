@@ -12,15 +12,14 @@ INSERT INTO roles (name, assign_role_by, assigned_by_user_id) VALUES
 ('EDITOR', 'Sistema', 3),  -- Charlie ha assegnato il ruolo
 ('VIEWER', 'Sistema', 4);  -- Diana ha assegnato il ruolo
 
-    INSERT INTO users_role (users_id, roles_id) VALUES
-    (1, 1),  -- Alice è ADMIN
-    (2, 2),  -- Bob è USER
-    (3, 3),  -- Charlie è MODERATOR
-    (4, 4),  -- Diana è EDITOR
-    (5, 5),  -- Eva è VIEWER
-
-    (2, 1),  -- Bob ha anche il ruolo di ADMIN
-    (3, 2),  -- Charlie ha anche il ruolo di USER
-    (4, 3),  -- Diana ha anche il ruolo di MODERATOR
-    (5, 2);  -- Eva ha anche il ruolo di USER
+INSERT INTO users_role (users_id, roles_id) VALUES
+(1, 1),  -- Alice è ADMIN
+(2, 2),  -- Bob è USER
+(3, 3),  -- Charlie è MODERATOR
+(4, 4),  -- Diana è EDITOR
+(5, 5),  -- Eva è VIEWER
+(2, 1),  -- Bob ha anche il ruolo di ADMIN
+(3, 2),  -- Charlie ha anche il ruolo di USER
+(4, 3),  -- Diana ha anche il ruolo di MODERATOR
+(5, 2);  -- Eva ha anche il ruolo di USER
 
