@@ -1,6 +1,6 @@
 package net.bcsoft.bcosft.controller;
 
-import net.bcsoft.bcosft.entity.User;
+import net.bcsoft.bcosft.entity.Users;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,23 +13,23 @@ import java.util.List;
 public class UserController {
 
     @GetMapping("/users/")
-    public ResponseEntity<List <User>>get(){
+    public ResponseEntity<List <Users>>get(){
         //la lista è uguale al metodo di selectAll
-        List <User> userList = new ArrayList<>();
+        List <Users> userList = new ArrayList<>();
         return ResponseEntity.ok(userList);
     }
 
     @PostMapping("/users/")
-    public ResponseEntity<User> create(@RequestBody User user) throws URISyntaxException {
+    public ResponseEntity<Users> create(@RequestBody Users user) throws URISyntaxException {
         //user1 uguale al metodo di create
-        User user1 = null;
+        Users user1 = null;
         return ResponseEntity.created(new URI("/users/")).body(user1);
     }
 
     @PutMapping("/users/{userId}")
-    public ResponseEntity<User> update (@PathVariable Long userId, @RequestBody User user){
+    public ResponseEntity<Users> update (@PathVariable Long userId, @RequestBody Users user){
         //nell'oggetto user1 metterlo uguale al metodo di update
-        User user1 = null;
+        Users user1 = null;
         return ResponseEntity.ok(user1);
     }
 
