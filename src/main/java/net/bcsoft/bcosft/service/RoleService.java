@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,14 +20,15 @@ public class RoleService {
 
     public Set<Role> getRolesByUserId(Long userId) {
         Optional<Users> user = userRepository.findById(userId);
-
-        if (user.isPresent()) {
-            Set<Role> roles = user.get().getRoles();
-            return new ResponseEntity<>(roles, HttpStatus.OK).getBody();
+        if(!user.isPresent()){
+            return null;
         }
 
-        return (Set<Role>) new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Set<Role> roles = user.get().getRoles();
+        return roles;
     }
+
+
 
 
 }

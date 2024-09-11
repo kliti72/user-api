@@ -1,34 +1,19 @@
-package net.bcsoft.bcosft.entity;
+package net.bcsoft.bcosft.dto;
 
 import jakarta.persistence.*;
+import net.bcsoft.bcosft.entity.Role;
+import net.bcsoft.bcosft.entity.Users;
 
 import java.util.Set;
 
-@Entity
-@Table(name = "users")
-public class Users {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UsersDTO {
+
     private long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "surname")
     private String surname;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "registerDate")
     private String registerDate;
-
-    @Column(name = "lastAccess")
     private String lastAccess;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-    @JoinTable(name = "users_role", joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
 
     public long getId() {
@@ -85,5 +70,18 @@ public class Users {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    private Users toEntity () {
+        Users user = new Users();
+
+        user.setId(this.id);
+        user.setName(this.name);
+        user.setSurname(this.surname);
+        user.setRoles(this.roles);
+        user.setPassword(this.password);
+        user.setLastAccess(this.lastAccess);
+        user.setRegisterDate(this.registerDate);
+        return user;
     }
 }
