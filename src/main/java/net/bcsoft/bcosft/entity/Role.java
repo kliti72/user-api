@@ -20,4 +20,36 @@ public class Role {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="assigned_by_user_id", referencedColumnName = "id")
     private Users createBy;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAssignRoleBy() {
+        return assignRoleBy;
+    }
+
+    public void setAssignRoleBy(String assignRoleBy) {
+        this.assignRoleBy = assignRoleBy;
+    }
+
+    public Users getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(Users createBy) {
+        this.createBy = createBy;
+    }
 }
