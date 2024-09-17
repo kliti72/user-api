@@ -1,12 +1,14 @@
 package net.bcsoft.bcosft.service;
 
 import net.bcsoft.bcosft.dto.RoleDTO;
+import net.bcsoft.bcosft.dto.UsersDTO;
 import net.bcsoft.bcosft.entity.Role;
 import net.bcsoft.bcosft.entity.Users;
 import net.bcsoft.bcosft.repository.RoleRepository;
 import net.bcsoft.bcosft.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,14 +24,10 @@ public class RoleService {
 
     public RoleDTO getRoleByUserId(Long userId) {
 
-        Optional<Users> user = userRepository.findById(userId);
-        Role role = user.get().getRole();
+        Users user = userRepository.findById(userId)
+                .orElseThrow(RuntimeException::new);
 
-        return new RoleDTO(role.getId(), role.getName(), role.getAssignRoleBy());
+        return new RoleDTO(user.getRole().getId(), user.getRole().getName(), user.getRole().getAssignRoleBy());
     }
-
-
-
-
 
 }
