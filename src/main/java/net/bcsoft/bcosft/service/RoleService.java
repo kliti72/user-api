@@ -73,14 +73,13 @@ public class RoleService {
         return new RoleDTO(updateRole.getId(), updateRole.getName(), updateRole.getAssignRoleBy());
     }
 
-    public ResponseEntity<HttpStatus> delete(Long roleId) throws NotFoundException {
+    public void delete(Long roleId) throws NotFoundException {
 
         Role role = roleRepository.findById(roleId)
                 .orElseThrow(NotFoundException::new);
 
         roleRepository.delete(role);
 
-        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 }
