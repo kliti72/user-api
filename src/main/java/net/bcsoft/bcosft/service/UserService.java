@@ -74,4 +74,33 @@ public class UserService {
 
     }
 
+    @Transactional
+    public UsersDTO update(Long userId, UsersDTO usersDTO) throws NotFoundException {
+        Users users = usersDTO.toEntity();
+        Users oldUser = userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
+        Role roleCapture = roleRepository.findById(usersDTO.getRoleId())
+                .orElseThrow(NotFoundException::new);
+
+        users.setRole(roleCapture);
+
+        oldUser.setName(users.getName());
+        oldUser.setSurname(users.getSurname());
+        oldUser.setRole(users.getRole());
+        oldUser.setLastAccess(users.getLastAccess());
+        oldUser.setRegisterDate(users.getRegisterDate());
+        oldUser.setPassword(users.getPassword());
+        Users users1 = userRepository.save(oldUser);
+
+        return new UsersDTO(users1.getId(), users1.getName(), users1.getSurname(), users1.getPassword(), users1.getRegisterDate(), users1.getLastAccess(), users1.getRole().getId());
+
+    }
+
+    public void delete (Long userId) throws NotFoundException {
+        Users users = userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
+
+        userRepository.delete(users);
+    }
+
 }
