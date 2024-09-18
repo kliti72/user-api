@@ -8,7 +8,6 @@ public class RoleDTO {
     private long id;
     private String name;
     private String assignRoleBy;
-    private Users createBy;
 
 
     public RoleDTO(long id, String assignRoleBy, String name) {
@@ -39,14 +38,6 @@ public class RoleDTO {
 
     public void setAssignRoleBy(String assignRoleBy) {
         this.assignRoleBy = assignRoleBy;
-    }
-
-    public Users getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Users createBy) {
-        this.createBy = createBy;
     }
 
     public Role toEntity() {

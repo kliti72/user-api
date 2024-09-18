@@ -9,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.NotContextException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,10 +46,18 @@ public class UserController {
     }
 
     @PostMapping("/users/")
-    public ResponseEntity<Users> create(@RequestBody Users user) throws URISyntaxException {
-        //user1 uguale al metodo di create
-        Users user1 = null;
-        return ResponseEntity.created(new URI("/users/")).body(user1);
+    public ResponseEntity<UsersDTO> insert(@RequestBody UsersDTO userDTO)  {
+
+        UsersDTO usersDTO;
+
+        try {
+            usersDTO = userService.insert(userDTO);
+        }catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        return ResponseEntity.ok(usersDTO);
     }
 
     @PutMapping("/users/{userId}")

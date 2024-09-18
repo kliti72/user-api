@@ -28,6 +28,7 @@ public class Users {
     @JoinColumn(name="roles_id", referencedColumnName = "id")
     private Role role;
 
+
     public long getId() {
         return id;
     }
@@ -77,7 +78,7 @@ public class Users {
     }
 
     public Role getRole() { // Corretto a "Role"
-        return role;
+        return this.role;
     }
 
     public void setRole(Role role) { // Corretto a "Role"

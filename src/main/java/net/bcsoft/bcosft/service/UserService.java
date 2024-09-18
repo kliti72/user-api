@@ -1,28 +1,29 @@
 package net.bcsoft.bcosft.service;
 
+import jakarta.transaction.Transactional;
 import net.bcsoft.bcosft.dto.UsersDTO;
 import net.bcsoft.bcosft.entity.Role;
 import net.bcsoft.bcosft.entity.Users;
+import net.bcsoft.bcosft.repository.RoleRepository;
 import net.bcsoft.bcosft.repository.UserRepository;
 import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.naming.NotContextException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
 
 @Service
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
 
     public List<UsersDTO> selectAll() throws NotContextException {
@@ -50,4 +51,27 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
         return new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
     }
+
+    @Transactional
+    public UsersDTO insert(UsersDTO usersDTO) throws NotFoundException {
+
+        Users user = usersDTO.toEntity();
+
+
+        Role roleCapture = roleRepository.findById(usersDTO.getRoleId())
+                .orElseThrow(NotFoundException::new);
+
+
+        user.setRole(roleCapture);
+
+        Users user2 = userRepository.save(user);
+
+        Users userReq = userRepository.findById(user2.getId())
+                .orElseThrow(NotFoundException::new);
+
+
+        return new UsersDTO(userReq.getId(), userReq.getName(), userReq.getSurname(), userReq.getPassword(), userReq.getRegisterDate(), userReq.getLastAccess(), user.getRole().getId());
+
+    }
+
 }

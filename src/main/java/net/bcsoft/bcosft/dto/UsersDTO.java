@@ -1,10 +1,8 @@
 package net.bcsoft.bcosft.dto;
 
-import jakarta.persistence.*;
 import net.bcsoft.bcosft.entity.Role;
 import net.bcsoft.bcosft.entity.Users;
 
-import java.util.Set;
 
 public class UsersDTO {
 
@@ -82,9 +80,8 @@ public class UsersDTO {
         this.roleId = roleId;
     }
 
-    private Users toEntity () {
+    public Users toEntity() {
         Users user = new Users();
-
         user.setId(this.id);
         user.setName(this.name);
         user.setSurname(this.surname);
