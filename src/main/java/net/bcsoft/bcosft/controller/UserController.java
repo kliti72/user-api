@@ -61,15 +61,25 @@ public class UserController {
     }
 
     @PutMapping("/users/{userId}")
-    public ResponseEntity<Users> update (@PathVariable Long userId, @RequestBody Users user){
+    public ResponseEntity<UsersDTO> update (@PathVariable Long userId, @RequestBody UsersDTO user){
         //nell'oggetto user1 metterlo uguale al metodo di update
-        Users user1 = null;
+        UsersDTO user1;
+        try{
+            user1 = userService.update(userId, user);
+        }catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(user1);
     }
 
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<String> delete(@PathVariable Long userId){
-        //mettere qui il metodo di delete
+        try{
+            userService.delete(userId);
+        }catch (NotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.noContent().build();
     }
 }

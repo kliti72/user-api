@@ -24,7 +24,7 @@ public class Users {
     @Column(name = "lastAccess")
     private String lastAccess;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="roles_id", referencedColumnName = "id")
     private Role role;
 
