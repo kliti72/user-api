@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class RoleService {
@@ -36,6 +38,18 @@ public class RoleService {
                 .orElseThrow(NotFoundException::new);
 
         return new RoleDTO(role.getId(), role.getName(), role.getAssignRoleBy());
+    }
+
+    public List<RoleDTO> getRoles() throws NotFoundException {
+
+        List<Role> roles = roleRepository.findAll();
+        List<RoleDTO> rolesDTO = new ArrayList<>();
+
+        for(Role role : roles){
+            rolesDTO.add(new RoleDTO(role.getId(), role.getName(), role.getAssignRoleBy()));
+        }
+
+        return rolesDTO;
     }
 
     public RoleDTO insert(RoleDTO roleDTO) {

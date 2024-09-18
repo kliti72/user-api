@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.List;
 
 
 @RestController
@@ -27,6 +27,21 @@ public class RoleController {
 
         try {
             role = roleService.getRoleByUserId(userId);
+        } catch(NotFoundException | NullPointerException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return ResponseEntity.ok(role);
+    }
+
+    @GetMapping("/roles/")
+    @Description("Recovery the role with User id")
+    public ResponseEntity<List<RoleDTO>> getRoles(){
+
+        List<RoleDTO> role;
+
+        try {
+            role = roleService.getRoles();
         } catch(NotFoundException | NullPointerException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
