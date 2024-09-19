@@ -9,6 +9,7 @@ public class UsersDTO {
     private long id;
     private String name;
     private String surname;
+    private String email;
     private String password;
     private String registerDate;
     private String lastAccess;
@@ -22,6 +23,10 @@ public class UsersDTO {
         this.registerDate = registerDate;
         this.lastAccess = lastAccess;
         this.roleId = roleId;
+    }
+
+    public UsersDTO() {
+
     }
 
     public long getId() {
@@ -79,7 +84,13 @@ public class UsersDTO {
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
     }
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public Users toEntity() {
         Users user = new Users();
         user.setId(this.id);

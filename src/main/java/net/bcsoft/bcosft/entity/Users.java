@@ -15,6 +15,9 @@ public class Users {
     @Column(name = "surname")
     private String surname;
 
+    @Column(unique = true, length = 100, nullable = false)
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -84,4 +87,13 @@ public class Users {
     public void setRole(Role role) { // Corretto a "Role"
         this.role = role;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
