@@ -5,23 +5,25 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import net.bcsoft.bcosft.dto.UsersDTO;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
-public class jwtManager {
+public class JwtTokenProvider {
 
     public static final String SECRET_KEY = "L93920KWJmmn299KWM";
 
-    public static String generateToken(UsersDTO userDTO) {
-        Claims claims = Jwts.claims().setSubject(userDTO.getName());
-        claims.put("name", userDTO.getName());
-        claims.put("email", userDTO.getEmail());
+        public static String generateToken(Authentication authentication) {
+            String username = authentication.getName(); // Ottiene il nome utente autenticato
 
-        return Jwts.builder()
-                .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                .compact();
-    }
+            Claims claims = Jwts.claims().setSubject(username);
+            claims.put("authorities", authentication.getAuthorities());
+
+            return Jwts.builder()
+                    .setClaims(claims)
+                    .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                    .compact();
+        }
 
     public static UsersDTO tokenToUserDTO(String token) {
         Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();

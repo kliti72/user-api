@@ -103,4 +103,20 @@ public class UserService {
         userRepository.delete(users);
     }
 
+    @Transactional
+    public UsersDTO getUserByEmail(String email) throws NotFoundException {
+        UsersDTO usersDTO = null;
+        
+        Users users = userRepository.findByEmail(email);
+
+        if(users.getEmail() == email) {
+            return new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
+        } else {
+            throw new NotFoundException();
+        }
+
+    }
+
+
+
 }
