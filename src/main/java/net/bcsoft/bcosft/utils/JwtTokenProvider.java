@@ -4,29 +4,54 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import net.bcsoft.bcosft.dto.UsersDTO;
-import org.springframework.security.core.Authentication;
+import net.bcsoft.bcosft.entity.Users;
+import net.bcsoft.bcosft.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.security.Key;
 
 @Service
 public class JwtTokenProvider {
 
-    public static final String SECRET_KEY = "L93920KWJmmn299KWM";
 
-        public static String generateToken(Authentication authentication) {
-            String username = authentication.getName(); // Ottiene il nome utente autenticato
+    @Autowired
+    UserService userService;
 
-            Claims claims = Jwts.claims().setSubject(username);
-            claims.put("authorities", authentication.getAuthorities());
+    public static final String SECRET_KEY = "WDADKMAWHENONDJOSANOIAWNIJNWAONCIJASNFNBAOSCOSBNOANCJWANOHINAKCOJWANOJFNAWFAWKHNDKAWDJINKASDJADKWANOAKDW";
 
-            return Jwts.builder()
-                    .setClaims(claims)
-                    .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-                    .compact();
-        }
+    public String generateToken(UsersDTO authentication) throws NotFoundException {
+
+        Users user = userService.getUserByEmail(authentication.getEmail()).toEntity();
+        System.out.print("UTENTE CATTURATO! LOGIN EFFETTUATO! " + user.getEmail() + user.getName());
+        String username = authentication.getName();
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("id", authentication.getId());
+        claims.put("name", authentication.getName());
+        claims.put("email", authentication.getEmail());
+        claims.put("password", authentication.getPassword());
+        claims.put("registerDate", authentication.getRegisterDate());
+        claims.put("lastAccess", authentication.getLastAccess());
+        claims.put("roleId", authentication.getRoleId());
+
+        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+    }
 
     public static UsersDTO tokenToUserDTO(String token) {
-        Claims claims = Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
 
         UsersDTO userDTO = new UsersDTO();
         userDTO.setId(claims.get("id", Long.class));
@@ -40,17 +65,16 @@ public class JwtTokenProvider {
         return userDTO;
     }
 
-    public boolean validateToken(String token) {
+    public boolean validateToken(String token) throws JwtException, IllegalArgumentException {
         try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(SECRET_KEY.getBytes())
+                    .build()
+                    .parseClaimsJws(token);
             return true;
-        } catch (JwtException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
-    }
-
-    public Claims getClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
 }

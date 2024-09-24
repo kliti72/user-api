@@ -62,7 +62,6 @@ public class UserController {
 
     @PutMapping("/users/{userId}")
     public ResponseEntity<UsersDTO> update (@PathVariable Long userId, @RequestBody UsersDTO user){
-        //nell'oggetto user1 metterlo uguale al metodo di update
         UsersDTO user1;
         try{
             user1 = userService.update(userId, user);

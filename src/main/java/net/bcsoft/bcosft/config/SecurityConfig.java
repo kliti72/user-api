@@ -1,5 +1,6 @@
 package net.bcsoft.bcosft.config;
 
+import net.bcsoft.bcosft.service.CustumUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +16,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @Description("Configura Security")
 public class SecurityConfig {
 
+    @Autowired
+    private CustumUserDetailsService customUserDetailsService;
+
+
     @Bean
-    @Description("Prende una richiesta http e costruisce tramite la configurazione Security una autenticazione")
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-                .build();
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .userDetailsService(customUserDetailsService);
+        return authenticationManagerBuilder.build();
     }
 
     @Bean
@@ -27,12 +33,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/public/**").permitAll()
-                )
-                .httpBasic(httpBasic -> httpBasic.disable());
-
-        http.formLogin(form -> form.disable());
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(formLogin -> formLogin.disable())
+        ;
+        http.formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer.disable());
 
         return http.build();
     }
