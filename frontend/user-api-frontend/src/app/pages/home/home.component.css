@@ -1,0 +1,29 @@
+.container_structure {
+    display: flex;
+    background-image: linear-gradient(360deg, transparent 50%, black 20%),
+    linear-gradient(transparent 10%, black 15%);
+    background-size: 25px 25px; /* Imposta la dimensione dei quadrati */
+    overflow: hidden;
+    animation: moveBackground 50s linear infinite;
+
+}
+
+.contaienr_login_register {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    color: white;
+    justify-content: center;
+
+   }
+
+.animated-text {
+    font-size: 6em;
+    margin: 0.5em;
+    display: inline-block;
+    letter-spacing: -0.09em;
+    line-height: 0.9em;
+    opacity: 0; /* Inizialmente nascosto */
+    animation: fadeInMoveUp 2s ease forwards;
+}
+
