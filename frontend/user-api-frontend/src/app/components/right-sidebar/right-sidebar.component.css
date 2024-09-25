@@ -1,8 +1,8 @@
 
 .presentation_card {
     height: 100vh;
+    width: 100vh;
     background-color: white;
-    flex: 1;
     -webkit-box-shadow: -10px 6px 27px 11px rgba(252, 246, 246, 0.069); 
     box-shadow: -10px 6px 27px 11px rgba(242, 240, 240, 0.092);
     margin-left: 1.5em;

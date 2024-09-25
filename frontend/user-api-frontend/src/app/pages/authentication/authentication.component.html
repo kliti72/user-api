@@ -1,1 +1,28 @@
-<p>authentication works!</p>
+<app-frattale-loading></app-frattale-loading>
+
+<div class="container_structure">
+
+    <div class="contaienr_login_register">
+        
+        @if(SwitchRegister) {
+            <app-form-login></app-form-login>
+
+            <app-custom-button 
+                [buttonConfig]="btnRegister" 
+                (click)="turnLogin()">
+            </app-custom-button>
+
+        }@else {
+            <app-form-register> </app-form-register>
+
+            <app-custom-button 
+                [buttonConfig]="btnLogin" 
+                (click)="turnLogin()"> 
+            </app-custom-button>
+        }
+    </div>
+
+    <app-right-sidebar></app-right-sidebar>
+
+</div>
+

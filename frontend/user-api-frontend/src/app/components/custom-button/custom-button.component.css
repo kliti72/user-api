@@ -1,0 +1,16 @@
+.authentication {
+    padding: 0.5em;
+    margin-left: 1em;
+    font-size: 1.2em;
+    outline: none;
+    border: 0px solid black;
+    color: white;
+    border-radius: 5px;
+    background-color: black;
+    background-image: linear-gradient(360deg, transparent 10%, rgba(0, 0, 0, 0.191) 90%),
+    linear-gradient(transparent 10%, rgba(251, 247, 247, 0.111) 90%);
+    background-size: 25px 25px; 
+    border: 2px solid rgba(255, 255, 255, 0.424);
+    cursor: pointer;
+    width: 94.5%;
+}
