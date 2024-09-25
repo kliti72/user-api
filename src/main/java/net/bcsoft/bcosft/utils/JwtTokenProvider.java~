@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +34,6 @@ public class JwtTokenProvider {
     @Autowired
     private RoleService roleService;
 
-    // Generazione del token JWT con i ruoli
     public String generateToken(UsersDTO authentication) throws ChangeSetPersister.NotFoundException, ChangeSetPersister.NotFoundException {
         Users user = userService.getUserByEmail(authentication.getEmail()).toEntity();
         String username = authentication.getName();
@@ -47,11 +45,9 @@ public class JwtTokenProvider {
         claims.put("lastAccess", authentication.getLastAccess());
         claims.put("roleId", authentication.getRoleId());
 
-        // Estrai i ruoli e metti nel token come mappa
+        // Estrai i ruoli
         RoleDTO roleDTO = roleService.getRoleByUserId(authentication.getId());
-        Map<String, String> roleMap = new LinkedHashMap<>();
-        roleMap.put("authority", roleDTO.getName());
-        claims.put("roles", roleMap);
+        claims.put("roles", roleDTO.getName()); // Assumi che `RoleDTO` abbia `getRoleName()` per un singolo ruolo.
 
         Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
@@ -61,7 +57,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // Conversione del token JWT in un oggetto UsersDTO
     public UsersDTO tokenToUserDTO(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY.getBytes())
@@ -80,7 +75,6 @@ public class JwtTokenProvider {
         return userDTO;
     }
 
-    // Validazione del token JWT
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
@@ -93,7 +87,6 @@ public class JwtTokenProvider {
         }
     }
 
-    // Estrazione dei dettagli utente dal token JWT
     public UserDetails getUserDetailsFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(SECRET_KEY.getBytes())
@@ -109,11 +102,10 @@ public class JwtTokenProvider {
         userDTO.setLastAccess(claims.get("lastAccess", String.class));
         userDTO.setRoleId(claims.get("roleId", Long.class));
 
-        // Gestisci la mappa dei ruoli
-        Map<String, String> roleMap = claims.get("roles", Map.class);
-        String role = roleMap.get("authority");
+        // Recupera i ruoli dal token
+        String role = claims.get("roles", String.class);
 
-        // Crea un'autorità usando il ruolo
+        // Crea un'autorità usando il singolo ruolo
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
         return new CustomUserDetails(userDTO.getName(), userDTO.getEmail(), "", authorities);
