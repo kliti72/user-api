@@ -1,6 +1,21 @@
+.container_structure {
+    display: flex;
+    background: rgb(4, 25, 58);
+
+
+}
+
+.contaienr_login_register {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    color: white;
+
+   }
 
 .container_login {
     padding: 1em;
+    
 }
 
 .text_login {
@@ -10,6 +25,7 @@
     padding: 0.5em;
     padding-left: 0em;
     text-transform: uppercase;
+
 }
 
 .container_form {
@@ -40,6 +56,13 @@
     background-color: rgb(233, 233, 233);
 }
 
+.container_external_button_access {
+    background-color: red;
+    display: flex;
+    flex-direction: row;
+    
+}
+
 .submit_button {
     background-color: white;
     outline: none;
@@ -47,6 +70,8 @@
     padding: 1em;
     border-top: 0px solid white;
     transition: all 0.5s;
+    text-align: left;
+    flex: 1;
 }
 
 
@@ -68,4 +93,14 @@
     color: white;
     text-align: center;
     align-items: center
+}
+
+
+.presentation_card {
+    height: 100vh;
+    background-color: white;
+    flex: 1;
+    -webkit-box-shadow: -10px 6px 27px 11px rgba(0, 0, 0, 0.069); 
+    box-shadow: -10px 6px 27px 11px rgba(0, 0, 0, 0.092);
+    margin-left: 1.5em;
 }
