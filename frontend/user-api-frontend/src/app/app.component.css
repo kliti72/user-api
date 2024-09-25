@@ -1,0 +1,71 @@
+
+.container_login {
+    padding: 1em;
+}
+
+.text_login {
+    font-weight: bold;
+    font-size: 1.5em;
+    display: inline-block;
+    padding: 0.5em;
+    padding-left: 0em;
+    text-transform: uppercase;
+}
+
+.container_form {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.input_email {
+    padding: 0.8em;
+    border: 1px solid black;
+    outline: none;
+    font-size: 1em;
+}
+
+.input_password {
+    padding: 0.8em;
+    border: 1px solid black;
+    outline: none;
+    font-size: 1em;
+}
+
+.input_email:focus {
+    background-color: rgb(233, 233, 233);
+}
+
+.input_password:focus {
+    background-color: rgb(233, 233, 233);
+}
+
+.submit_button {
+    background-color: white;
+    outline: none;
+    border: 1px solid black;
+    padding: 1em;
+    border-top: 0px solid white;
+    transition: all 0.5s;
+}
+
+
+.submit_button:hover {
+    background-color: rgb(194, 194, 200);
+    color: rgb(31, 31, 31);
+    cursor: pointer;
+}
+
+
+.submit_button::before {
+    content: " ";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(3, 10, 83);
+    margin-left: 0.2em;
+    border-radius: 90px;
+    color: white;
+    text-align: center;
+    align-items: center
+}
