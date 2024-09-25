@@ -105,20 +105,11 @@ public class UserService {
 
     @Transactional
     public UsersDTO getUserByEmail(String email) throws NotFoundException {
-        UsersDTO usersDTO = new UsersDTO();
         
         Users user = userRepository.findByEmail(email);
 
-        usersDTO.setId(user.getId());
-        usersDTO.setName(user.getName());
-        usersDTO.setSurname(user.getSurname());
-        usersDTO.setEmail(user.getEmail());
-        usersDTO.setPassword(user.getPassword());
-        usersDTO.setRegisterDate(user.getRegisterDate());
-        usersDTO.setLastAccess(user.getLastAccess());
-        usersDTO.setRoleId(user.getRole().getId());
+        return new UsersDTO(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getRegisterDate(), user.getLastAccess(), user.getRole().getId());
 
-        return usersDTO;
 
     }
 
