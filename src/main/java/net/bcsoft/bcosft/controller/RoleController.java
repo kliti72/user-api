@@ -21,39 +21,21 @@ public class RoleController {
     @GetMapping("/role/user/{userId}/")
     @Description("Recovery the role with User id")
     public ResponseEntity<RoleDTO> getByUserId(@PathVariable Long userId){
-
-        RoleDTO role;
-
-        try {
-            role = roleService.getRoleByUserId(userId);
-        } catch(NotFoundException | NullPointerException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+        RoleDTO role = roleService.getRoleByUserId(userId);
         return ResponseEntity.ok(role);
     }
 
     @GetMapping("/roles/")
     @Description("Recovery the role with User id")
     public ResponseEntity<List<RoleDTO>> getRoles(){
-
-        List<RoleDTO> role;
-
-        try {
-            role = roleService.getRoles();
-        } catch(NotFoundException | NullPointerException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+        List<RoleDTO> role= roleService.getRoles();
         return ResponseEntity.ok(role);
     }
 
     @PostMapping("/role/")
     @Description("Create new role for all user")
     public ResponseEntity<RoleDTO> insert(@RequestBody RoleDTO roleDTO) {
-
         RoleDTO role = roleService.insert(roleDTO);
-
         return ResponseEntity.ok(role);
 
     }
@@ -61,24 +43,14 @@ public class RoleController {
     @PutMapping("/role/{roleId}/")
     @Description("Update specific role")
     public ResponseEntity<RoleDTO> put(@RequestBody RoleDTO roleDTO, @PathVariable Long roleId) {
-
-        RoleDTO role = roleService.update(roleDTO, roleId);
-
+        RoleDTO role = roleService.update(roleDTO);
         return ResponseEntity.ok(role);
     }
 
     @DeleteMapping("/role/{roleId}/")
     @Description("Delete the role with role id")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long roleId) {
-
-        try {
-            roleService.delete(roleId);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (DataIntegrityViolationException e) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
+        roleService.delete(roleId);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
