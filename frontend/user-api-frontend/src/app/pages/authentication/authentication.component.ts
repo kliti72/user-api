@@ -11,7 +11,7 @@ import { HeaderComponent } from '../../components/header/header.component';
   templateUrl: './authentication.component.html',
   styleUrl: './authentication.component.css',
   standalone: true,
-  imports: [FormLoginComponent, FormRegisterComponent, RightSidebarComponent, FrattaleLoadingComponent, CustomButtonComponent]
+  imports: [FormLoginComponent, FormRegisterComponent, RightSidebarComponent, CustomButtonComponent]
 
 })
 export class AuthenticationComponent {

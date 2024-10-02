@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  isAuthenticated = true;
+  isAuthenticated = false;
   userProfileImage = 'path/to/profile-image.jpg'; // Percorso dell'immagine del profilo
   userName = 'Nome Utente'; // Nome dell'utente
   dropdownVisible = false;

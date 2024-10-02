@@ -1,0 +1,65 @@
+
+  
+  .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 70vh;
+    text-align: center;
+    color: #333;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin: 0;
+    color: #4a90e2; /* Colore del titolo */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .description {
+    font-size: 1.2rem;
+    margin: 20px 0;
+    color: #666; /* Colore della descrizione */
+  }
+  
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    margin-bottom: 15px;
+  }
+  
+  input[type="email"] {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    width: 300px; /* Larghezza dell'input */
+    transition: border 0.3s;
+  }
+  
+  input[type="email"]:focus {
+    border-color: #4a90e2; /* Colore del bordo al focus */
+    outline: none; /* Rimuove il contorno predefinito */
+  }
+  
+  .subscribe-btn {
+    padding: 10px 20px;
+    background-color: #4a90e2; /* Colore del pulsante */
+    color: white; /* Colore del testo del pulsante */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .subscribe-btn:hover {
+    background-color: #357ABD; /* Colore del pulsante al passaggio del mouse */
+  }
+  
