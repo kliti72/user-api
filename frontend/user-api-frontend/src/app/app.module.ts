@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from "./components/header/header.component";
 import { WelcomeContainerComponent } from './components/welcome-container/welcome-container.component';
+import { HttpClient, provideHttpClient } from '@angular/common/http';
 
 
 @NgModule({
@@ -14,9 +15,9 @@ import { WelcomeContainerComponent } from './components/welcome-container/welcom
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule
 ],
-  providers: [],
+  providers: [provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -28,11 +28,7 @@ public class CustumUserDetailsService implements UserDetailsService {
 
         Users user = null;
 
-        try {
-            user = userService.getUserByEmail(email).toEntity();
-        } catch (ChangeSetPersister.NotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        user = userService.getUserByEmail(email).toEntity();
 
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword() , getAuthorities(user));
     }
