@@ -1,0 +1,11 @@
+<div class="faq-card">
+    <div class="faq-question" (click)="toggleAnswer()">
+        <h2>{{ question }}</h2>
+        <span class="arrow" [class.open]="isOpen">▼</span>
+    </div>
+    @if(isOpen) {
+        <div class="faq-answer">
+            <p>{{ answer }}</p>
+        </div>
+    }
+</div>
