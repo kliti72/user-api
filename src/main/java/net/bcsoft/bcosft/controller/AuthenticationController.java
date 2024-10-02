@@ -33,13 +33,8 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<Boolean> register(@RequestBody UsersDTO user) {
-        try {
-            userService.insert(user);
-        } catch (ChangeSetPersister.NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        userService.insert(user);
+
         return ResponseEntity.ok(true);
     }
 

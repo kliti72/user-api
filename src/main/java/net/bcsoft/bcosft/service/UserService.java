@@ -4,14 +4,13 @@ import jakarta.transaction.Transactional;
 import net.bcsoft.bcosft.dto.UsersDTO;
 import net.bcsoft.bcosft.entity.Role;
 import net.bcsoft.bcosft.entity.Users;
+import net.bcsoft.bcosft.exception.*;
 import net.bcsoft.bcosft.repository.RoleRepository;
 import net.bcsoft.bcosft.repository.UserRepository;
-import org.apache.logging.log4j.util.InternalException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.naming.NotContextException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,17 +25,17 @@ public class UserService {
     private RoleRepository roleRepository;
 
 
-    public List<UsersDTO> selectAll() throws NotContextException {
+    public List<UsersDTO> selectAll() {
         List <Users> usersList;
         try{
             usersList = userRepository.findAll();
         }catch (RuntimeException e){
-            throw new InternalException("Errore");
+            throw new InternalException("Errore recupero utenti");
         }
         List <UsersDTO> usersDTOList = new ArrayList<>();
 
         if(usersList.isEmpty()) {
-            throw new NotContextException("Non presenti user");
+            throw new NoContentException("Non presenti user");
         }
         for (Users users : usersList) {
             UsersDTO usersDTO = new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
@@ -45,29 +44,45 @@ public class UserService {
         return usersDTOList;
     }
 
-    public UsersDTO selectById(Long userId) throws NotFoundException {
+    public UsersDTO selectById(Long userId) {
         Users users;
-        users = userRepository.findById(userId)
-                .orElseThrow(NotFoundException::new);
+        try {
+            users = userRepository.findById(userId)
+                    .orElseThrow(NotFoundException::new);
+        }catch (RuntimeException | NotFoundException e ) {
+            throw new InternalException("Errore recupero utenti");
+        }
+
         return new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
     }
 
     @Transactional
-    public UsersDTO insert(UsersDTO usersDTO) throws NotFoundException {
-
+    public UsersDTO insert(UsersDTO usersDTO) {
         Users user = usersDTO.toEntity();
+        Role roleCapture;
 
-
-        Role roleCapture = roleRepository.findById(usersDTO.getRoleId())
-                .orElseThrow(NotFoundException::new);
-
-
+        try{
+            roleCapture = roleRepository.findById(usersDTO.getRoleId())
+                    .orElseThrow(NotFoundException::new);
+        }catch (NotFoundException e){
+            throw new InternalException("RUolo non trovato");
+        }
         user.setRole(roleCapture);
+        Users result;
 
-        Users user2 = userRepository.save(user);
-
-        Users userReq = userRepository.findById(user2.getId())
-                .orElseThrow(NotFoundException::new);
+        try{
+            result = userRepository.save(user);
+        }catch (RuntimeException e){
+            throw new InternalException("Errore creazione utente");
+        }
+        Users userReq;
+        try {
+            userReq = userRepository.findById(result.getId())
+                    .orElseThrow(NotFoundException::new);
+        } catch (NotFound | NotFoundException e){
+            throw new NotFound("Utente non trovato");
+        }
+         if(userReq == null) throw new BadRequestException("Problema creazione utente");
 
 
         return new UsersDTO(userReq.getId(), userReq.getName(), userReq.getSurname(), userReq.getPassword(), userReq.getRegisterDate(), userReq.getLastAccess(), user.getRole().getId());
@@ -75,39 +90,70 @@ public class UserService {
     }
 
     @Transactional
-    public UsersDTO update(Long userId, UsersDTO usersDTO) throws NotFoundException {
+    public UsersDTO update(Long userId, UsersDTO usersDTO) {
         Users users = usersDTO.toEntity();
-        Users oldUser = userRepository.findById(userId)
-                .orElseThrow(NotFoundException::new);
-        Role roleCapture = roleRepository.findById(usersDTO.getRoleId())
-                .orElseThrow(NotFoundException::new);
+        Users oldUser;
+        Role roleCapture;
 
+        try{
+            oldUser = userRepository.findById(userId)
+                    .orElseThrow(NotFoundException::new);
+            roleCapture = roleRepository.findById(usersDTO.getRoleId())
+                    .orElseThrow(NotFoundException::new);
+        }catch (RuntimeException | NotFoundException e){
+            throw new InternalException("Errore recupero user");
+        }
+
+        if(oldUser == null) throw new ConflictException("Errore recupero user");
         users.setRole(roleCapture);
-
-        oldUser.setName(users.getName());
-        oldUser.setSurname(users.getSurname());
-        oldUser.setRole(users.getRole());
-        oldUser.setLastAccess(users.getLastAccess());
-        oldUser.setRegisterDate(users.getRegisterDate());
-        oldUser.setPassword(users.getPassword());
-        Users users1 = userRepository.save(oldUser);
-
-        return new UsersDTO(users1.getId(), users1.getName(), users1.getSurname(), users1.getPassword(), users1.getRegisterDate(), users1.getLastAccess(), users1.getRole().getId());
+        Users updateUser;
+        try {
+            oldUser.setName(users.getName());
+            oldUser.setSurname(users.getSurname());
+            oldUser.setRole(users.getRole());
+            oldUser.setLastAccess(users.getLastAccess());
+            oldUser.setRegisterDate(users.getRegisterDate());
+            oldUser.setPassword(users.getPassword());
+            updateUser = userRepository.save(oldUser);
+        }catch (RuntimeException e){
+            throw new InternalException("errore aggiornamento utente");
+        }
+        return new UsersDTO(updateUser.getId(), updateUser.getName(), updateUser.getSurname(), updateUser.getPassword(), updateUser.getRegisterDate(), updateUser.getLastAccess(), updateUser.getRole().getId());
 
     }
 
-    public void delete (Long userId) throws NotFoundException {
-        Users users = userRepository.findById(userId)
-                .orElseThrow(NotFoundException::new);
+    public void delete (Long userId){
+        Users result;
 
-        userRepository.delete(users);
+        try{
+            result = userRepository.findById(userId)
+                    .orElseThrow(NotFoundException::new);
+        }catch (NotFoundException e){
+            throw new InternalException("Errore recupero utrente");
+        }
+        if(result == null) throw new NotFound("Utente non trovato");
+
+        try{
+            userRepository.delete(result);
+        }catch (RuntimeException e){
+            throw new ConflictException("Errore cancellazione ruolo");
+        }
+
     }
 
     @Transactional
-    public UsersDTO getUserByEmail(String email) throws NotFoundException {
-        
-        Users user = userRepository.findByEmail(email);
+    public UsersDTO getUserByEmail(String email) {
+        Users user;
 
+        try {
+            user = userRepository.findByEmail(email);
+        }catch (RuntimeException e){
+            throw new InternalException("Utente non trovato");
+        }
+
+        if(user == null){
+            throw new NotFound("utente non trovato");
+        }
         return new UsersDTO(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getRegisterDate(), user.getLastAccess(), user.getRole().getId());
 
 

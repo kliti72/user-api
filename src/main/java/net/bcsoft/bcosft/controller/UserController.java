@@ -21,64 +21,31 @@ public class UserController {
     @GetMapping("/users/")
     public ResponseEntity<List <UsersDTO>>get(){
         //la lista è uguale al metodo di selectAll
-        List <UsersDTO> userList = new ArrayList<>();
-        try{
-           userList  = userService.selectAll();
-        }catch (NotContextException e){
-            return ResponseEntity.noContent().build();
-        }
-
+        List <UsersDTO> userList = userService.selectAll();
         return ResponseEntity.ok(userList);
     }
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<UsersDTO> getById(@PathVariable Long userId) {
-        UsersDTO usersDTO;
-
-        try {
-            usersDTO = userService.selectById(userId);
-        }catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-
-
+        UsersDTO usersDTO = userService.selectById(userId);
         return ResponseEntity.ok(usersDTO);
     }
 
     @PostMapping("/users/")
     public ResponseEntity<UsersDTO> insert(@RequestBody UsersDTO userDTO)  {
-
-        UsersDTO usersDTO;
-
-        try {
-            usersDTO = userService.insert(userDTO);
-        }catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-
-
+        UsersDTO usersDTO = userService.insert(userDTO);
         return ResponseEntity.ok(usersDTO);
     }
 
     @PutMapping("/users/{userId}")
     public ResponseEntity<UsersDTO> update (@PathVariable Long userId, @RequestBody UsersDTO user){
-        UsersDTO user1;
-        try{
-            user1 = userService.update(userId, user);
-        }catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        UsersDTO user1 = userService.update(userId, user);
         return ResponseEntity.ok(user1);
     }
 
     @DeleteMapping("/users/{userId}")
     public ResponseEntity<String> delete(@PathVariable Long userId){
-        try{
-            userService.delete(userId);
-        }catch (NotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
-
+        userService.delete(userId);
         return ResponseEntity.noContent().build();
     }
 }
