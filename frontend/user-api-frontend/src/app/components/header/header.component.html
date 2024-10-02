@@ -1,10 +1,86 @@
-<header style="width: 100%; background-color: white; font-weight: bold;"> 
-
-    <nav> 
-        This is a header
+<header class="header">
+    <div class="logo">
+        <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/agency-logo-design-template-63d79adb61b0737cf1c996c9ce6661e0_screen.jpg?ts=1677711623" alt="Logo" class="logo-img">
+        <h1>Logo</h1>
+    </div>
+    <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+    <nav class="nav">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">Servizi <i class="fas fa-chevron-down"></i></a>
+                <ul class="dropdown">
+                    <li class="dropdown-item">
+                        <a href="#">
+                            <div>
+                                <h3>Servizio 1</h3>
+                                <p>Breve descrizione del Servizio 1</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="#">
+                            <div>
+                                <h3>Servizio 2 <i class="fas fa-chevron-right"></i></h3>
+                                <p>Breve descrizione del Servizio 2</p>
+                            </div>
+                        </a>
+                        <ul class="dropdown-submenu">
+                            <li><a href="#">Sub-servizio 1</a></li>
+                            <li><a href="#">Sub-servizio 2</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-item">
+                        <a href="#">
+                            <div>
+                                <h3>Servizio 3</h3>
+                                <p>Breve descrizione del Servizio 3</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link">Chi Siamo</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Contatti</a></li>
+        </ul>
     </nav>
+    <div class="header-actions">
+        @if(isAuthenticated) {
+            <div class="user-menu">
+                <div class="profile-icon" (click)="toggleDropdown()">
+                    <img alt="Profilo Utente" src="https://media.istockphoto.com/id/1386479313/it/foto/felice-millennial-donna-daffari-afroamericana-in-posa-isolata-su-bianco.jpg?s=612x612&w=0&k=20&c=YzxmAHPkvfnzNRoMTNBdfL9Ifj85OPpEgVxQF0-XG-c=" class="profile-image">
+                    <span class="user-name">Nome </span>
+                </div>
+                @if(dropdownVisible){
+                    <div class="dropdown-menu">
+                        <a (click)="navigateToProfile()">Il mio profilo</a>
+                        <a (click)="logout()">Esci</a>
+                    </div>
+                }
+            </div>
 
-    <ul>
-
-    </ul>
+        } @else {
+            <form class="newsletter-form">
+                <div class="input-wrapper">
+                    <input type="email" placeholder="Iscriviti alla newsletter" aria-label="Iscriviti alla newsletter">
+                    <span class="input-focus-effect"></span>
+                </div>
+                <button type="submit">Iscriviti</button>
+            </form>
+            <div class="login-buttons">
+                <button class="login-btn" (click)="navigateToLogin()" >Registrati</button>
+                <button class="login-btn login-microsoft">
+                    <i class="fab fa-microsoft"></i> Accedi con Microsoft
+                </button>
+                <button class="login-btn login-github">
+                    <i class="fab fa-github"></i> Accedi con GitHub
+                </button>
+            </div>
+        }
+        
+    </div>
 </header>

@@ -1,0 +1,86 @@
+
+.container_login {
+    padding: 1em;
+    
+}
+
+.text_login {
+    font-weight: bold;
+    font-size: 1.5em;
+    display: inline-block;
+    padding: 0.5em;
+    padding-left: 0em;
+    text-transform: uppercase;
+
+}
+
+.container_form {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.input_email {
+    padding: 0.8em;
+    border: 1px solid black;
+    outline: none;
+    font-size: 1em;
+}
+
+.input_password {
+    padding: 0.8em;
+    border: 1px solid black;
+    outline: none;
+    font-size: 1em;
+}
+
+.input_email:focus {
+    background-color: rgb(233, 233, 233);
+}
+
+.input_password:focus {
+    background-color: rgb(233, 233, 233);
+}
+
+.container_external_button_access {
+    display: flex;
+    flex-direction: row;
+    
+}
+.submit_button {
+    display: flex;
+    align-items: center; 
+    gap: 0.5em; 
+    background-color: white;
+    outline: none;
+    border: 1px solid black;
+    padding: 1.2em;
+    border-top: 5px solid rgb(6, 196, 60);
+    transition: all 0.5s;
+    text-align: left;
+    flex: 1;
+    margin-top: 1em;
+}
+
+
+
+.submit_button:hover {
+    background-color: rgb(194, 194, 200);
+    color: rgb(31, 31, 31);
+    cursor: pointer;
+}
+
+
+.submit_button::before {
+    border: 2px solid rgb(239, 239, 239);
+    content: " ";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background-color: rgb(53, 206, 53);
+    margin-left: 0.2em;
+    border-radius: 90px;
+    color: white;
+    text-align: center;
+    align-items: center
+}
