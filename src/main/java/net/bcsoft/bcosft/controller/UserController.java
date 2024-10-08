@@ -9,14 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.naming.NotContextException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class UserController {
 
-    @Autowired
-    UserService userService;
+
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/users/")
     public ResponseEntity<List <UsersDTO>>get(){
@@ -32,9 +38,9 @@ public class UserController {
     }
 
     @PostMapping("/users/")
-    public ResponseEntity<UsersDTO> insert(@RequestBody UsersDTO userDTO)  {
+    public ResponseEntity<UsersDTO> insert(@RequestBody UsersDTO userDTO) throws URISyntaxException {
         UsersDTO usersDTO = userService.insert(userDTO);
-        return ResponseEntity.ok(usersDTO);
+        return ResponseEntity.created(new URI("/users/" + usersDTO.getId())).body(userDTO);
     }
 
     @PutMapping("/users/{userId}")
