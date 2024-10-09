@@ -28,7 +28,7 @@ public class UserTest {
     @Test
     void get_ok() {
         List <UsersDTO> usersDTOList = new ArrayList<>();
-        usersDTOList.add(new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L));
+        usersDTOList.add(new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L));
 
         Mockito.doReturn(usersDTOList).when(userService).selectAll();
         UserController userController = new UserController(userService);
@@ -46,7 +46,7 @@ public class UserTest {
 
     @Test
     void create_created() throws URISyntaxException {
-        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L);
+        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L);
         Mockito.doReturn(fakeUserDTO).when(userService).insert(fakeUserDTO);
 
         UserController userController = new UserController(userService);
@@ -57,7 +57,7 @@ public class UserTest {
 
     @Test
     void create_badRequest() {
-        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L);
+        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L);
         Mockito.doThrow(new BadRequestException("test")).when(userService).insert(fakeUserDTO);
         UserController userController = new UserController(userService);
         Assertions.assertThrows(BadRequestException.class, () -> userController.insert(fakeUserDTO));
@@ -65,7 +65,7 @@ public class UserTest {
 
     @Test
     void selectById_ok() {
-        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L);
+        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L);
         Mockito.doReturn(fakeUserDTO).when(userService).selectById(fakeUserDTO.getId());
 
         UserController userController = new UserController(userService);
@@ -83,7 +83,7 @@ public class UserTest {
 
     @Test
     void update_ok(){
-        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L);
+        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L);
         Mockito.doReturn(fakeUserDTO).when(userService).update(fakeUserDTO.getId(), fakeUserDTO);
 
         UserController userController = new UserController(userService);
@@ -94,7 +94,7 @@ public class UserTest {
 
     @Test
     void update_conflict(){
-        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L);
+        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L);
         Mockito.doThrow(new ConflictException("test")).when(userService).update(fakeUserDTO.getId(), fakeUserDTO);
         UserController userController = new UserController(userService);
         Assertions.assertThrows(ConflictException.class, () -> userController.update(0L, fakeUserDTO));
@@ -102,7 +102,7 @@ public class UserTest {
 
     @Test
     void delete_noContent(){
-        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "password", "register date", "last access", 0L);
+        UsersDTO fakeUserDTO = new UsersDTO(0L, "test", "test", "mail", "password", "register date", "last access", 0L);
         Mockito.doAnswer(invocation -> null).when(userService).delete(fakeUserDTO.getId());
         UserController userController = new UserController(userService);
         ResponseEntity re = userController.delete(0L);
