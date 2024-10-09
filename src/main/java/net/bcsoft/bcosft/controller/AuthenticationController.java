@@ -5,6 +5,7 @@ import net.bcsoft.bcosft.dto.JwtResponseDTO;
 import net.bcsoft.bcosft.dto.UsersDTO;
 import net.bcsoft.bcosft.service.UserService;
 import net.bcsoft.bcosft.utils.JwtTokenProvider;
+import org.apache.catalina.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthenticationController {
 
     private final UserService userService;
@@ -31,11 +33,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(new JwtResponseDTO(jwt));
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<Boolean> register(@RequestBody UsersDTO user) {
-        userService.insert(user);
+    @PostMapping("/register/")
+    public ResponseEntity<UsersDTO> register(@RequestBody UsersDTO user) {
+        UsersDTO userDTO  = userService.insert(user);
 
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(userDTO);
     }
 
     @GetMapping("/validate/")

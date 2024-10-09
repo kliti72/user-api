@@ -8,7 +8,7 @@
     
     <div class="header_profile">
         
-        <a class="text_login">Il tuo profilo</a>
+        <a class="text_login">{{ profile.name ?? 'Loading..'}}</a>
         
         <div class="profile_buttons">
             <button class="edit_button" (click)="toggleEdit()">{{ isEditable ? 'Conferma' : 'Modifica' }}</button>

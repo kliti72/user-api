@@ -38,7 +38,7 @@ public class UserService {
             throw new NoContentException("Non presenti user");
         }
         for (Users users : usersList) {
-            UsersDTO usersDTO = new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
+            UsersDTO usersDTO = new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getEmail(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
             usersDTOList.add(usersDTO);
         }
         return usersDTOList;
@@ -53,7 +53,7 @@ public class UserService {
             throw new InternalException("Errore recupero utenti");
         }
 
-        return new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
+        return new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getEmail(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
     }
 
     @Transactional
@@ -85,8 +85,8 @@ public class UserService {
          if(userReq == null) throw new BadRequestException("Problema creazione utente");
 
 
-        return new UsersDTO(userReq.getId(), userReq.getName(), userReq.getSurname(), userReq.getPassword(), userReq.getRegisterDate(), userReq.getLastAccess(), user.getRole().getId());
 
+         return new UsersDTO(userReq.getId(), userReq.getName(), userReq.getEmail(), userReq.getSurname(), userReq.getPassword(), userReq.getRegisterDate(), userReq.getLastAccess(), userReq.getRole().getId());
     }
 
     @Transactional
@@ -118,7 +118,7 @@ public class UserService {
         }catch (RuntimeException e){
             throw new InternalException("errore aggiornamento utente");
         }
-        return new UsersDTO(updateUser.getId(), updateUser.getName(), updateUser.getSurname(), updateUser.getPassword(), updateUser.getRegisterDate(), updateUser.getLastAccess(), updateUser.getRole().getId());
+        return new UsersDTO(updateUser.getId(), updateUser.getName(), updateUser.getName(), updateUser.getSurname(), updateUser.getPassword(), updateUser.getRegisterDate(), updateUser.getLastAccess(), updateUser.getRole().getId());
 
     }
 
@@ -154,7 +154,7 @@ public class UserService {
         if(user == null){
             throw new NotFound("utente non trovato");
         }
-        return new UsersDTO(user.getId(), user.getName(), user.getSurname(), user.getPassword(), user.getRegisterDate(), user.getLastAccess(), user.getRole().getId());
+        return new UsersDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getRegisterDate(), user.getLastAccess(), user.getRole().getId());
 
 
     }

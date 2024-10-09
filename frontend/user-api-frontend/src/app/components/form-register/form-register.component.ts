@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
+import { User } from '../../types/User.type';
+import { Role } from '../../types/Role.type';
 
 @Component({
   selector: 'app-form-register',
@@ -17,6 +19,7 @@ export class FormRegisterComponent {
   registrationForm: FormGroup;
   registrationError: string | null = null; 
   registrationSuccess: boolean = false; 
+  user?: User;
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +27,7 @@ export class FormRegisterComponent {
     private router: Router 
   ) {
     this.registrationForm = this.fb.group({
+      name: ['', [Validators.required, Validators.email]],
       email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -34,21 +38,36 @@ export class FormRegisterComponent {
   }
 
   onSubmit() {
-    if(this.registrationForm?.valid) {
-      const { email, confirmEmail, password } = this.registrationForm.value;
-      this.myService.register(email, password).subscribe((data : any[]) => {
-        next: (result: any) => {
-          console.log(result);
-        }
-        error: (error: any) => {
-          console.log(error);
-        }
-        complete: (complete: any) => {
-          console.log(complete);
-        }
-      })
-    }
-    console.log(this.myService.getData());
-  }
 
+    if(this.registrationForm?.valid) {
+
+      const { email, confirmEmail, password } = this.registrationForm.value;
+
+      this.user = {
+        surname: "example",
+        email: email,
+        confirmEmail: confirmEmail,
+        password: password,
+        roleId: 1,
+        registerDate: "2023-09-01",
+        lastAccess: "2023-09-10",
+      }
+
+        this.myService.register(this.user).subscribe({
+          next: (user: User) => {
+            console.log("REGISTRATO");
+            console.log(user);
+            this.router.navigate(['/profile']);
+          },
+          error: (error: any) => {
+            console.log("ERRORE!")
+            console.log(error);
+          }
+        });
+      
+    } else {
+      console.log("ERRORE sulla validazione del form");
+      console.log(this.registrationForm?.value)
+    }
+  }
 }

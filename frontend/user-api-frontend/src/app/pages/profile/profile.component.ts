@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FaqCardComponent } from '../../components/faq-card/faq-card.component';
+import { User } from '../../types/User.type';
+import { UserServiceService } from '../../services/user-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -8,16 +11,25 @@ import { FaqCardComponent } from '../../components/faq-card/faq-card.component';
   standalone: true,
   imports: [FaqCardComponent]
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
+
   isEditable: boolean = false;
+  profile! : User;
 
-  profile = {
-    name: 'kliti',
-    surname: 'elezi',
-    email: 'kliti7085@example.com',
-    class: "profile_field"
-  };
+  constructor(private userService : UserServiceService, private router : Router) {}
 
+  ngOnInit(): void {
+
+    if(this.userService.getUser() == null) {
+        this.router.navigate(['/login'])
+      } else {
+        this.profile = this.userService.getUser();
+        this.profile.class = "profile_field";
+        this.router.navigate(['/profile'])
+          
+      }
+  }
+  
   toggleEdit(): void {
     if(!this.isEditable) {
     this.profile.class = "profile_field borderTrue";
