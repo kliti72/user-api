@@ -10,13 +10,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 
 @RestController
 public class RoleController {
-    @Autowired
+
     RoleService roleService;
+
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @GetMapping("/role/user/{userId}/")
     @Description("Recovery the role with User id")
@@ -34,9 +40,10 @@ public class RoleController {
 
     @PostMapping("/role/")
     @Description("Create new role for all user")
-    public ResponseEntity<RoleDTO> insert(@RequestBody RoleDTO roleDTO) {
-        RoleDTO role = roleService.insert(roleDTO);
-        return ResponseEntity.ok(role);
+    public ResponseEntity<RoleDTO> insert(@RequestBody RoleDTO roleDTO) throws URISyntaxException {
+        RoleDTO roleDTO1 = roleService.insert(roleDTO);
+
+        return ResponseEntity.created(new URI("/roles/" + roleDTO1.getId())).body(roleDTO1);
 
     }
 
@@ -51,7 +58,7 @@ public class RoleController {
     @Description("Delete the role with role id")
     public ResponseEntity<HttpStatus> delete(@PathVariable Long roleId) {
         roleService.delete(roleId);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 
 }
