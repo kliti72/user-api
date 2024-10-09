@@ -15,10 +15,11 @@ public class UsersDTO {
     private String lastAccess;
     private Long roleId;
 
-    public UsersDTO(long id, String name, String surname, String password, String registerDate, String lastAccess, Long roleId) {
+    public UsersDTO(long id, String name, String surname, String email, String password, String registerDate, String lastAccess, Long roleId) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.email = email;
         this.password = password;
         this.registerDate = registerDate;
         this.lastAccess = lastAccess;

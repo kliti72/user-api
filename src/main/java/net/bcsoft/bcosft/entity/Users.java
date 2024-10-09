@@ -33,7 +33,7 @@ public class Users {
 
 
     public long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(long id) {
@@ -41,7 +41,7 @@ public class Users {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -49,7 +49,7 @@ public class Users {
     }
 
     public String getSurname() {
-        return surname;
+        return this.surname;
     }
 
     public void setSurname(String surname) {
@@ -57,7 +57,7 @@ public class Users {
     }
 
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     public void setPassword(String password) {
@@ -65,7 +65,7 @@ public class Users {
     }
 
     public String getRegisterDate() {
-        return registerDate;
+        return this.registerDate;
     }
 
     public void setRegisterDate(String registerDate) {
@@ -73,7 +73,7 @@ public class Users {
     }
 
     public String getLastAccess() {
-        return lastAccess;
+        return this.lastAccess;
     }
 
     public void setLastAccess(String lastAccess) {
@@ -89,7 +89,7 @@ public class Users {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
