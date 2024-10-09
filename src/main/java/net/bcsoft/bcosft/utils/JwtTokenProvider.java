@@ -36,7 +36,7 @@ public class JwtTokenProvider {
     private RoleService roleService;
 
     // Generazione del token JWT con i ruoli
-    public String generateToken(UsersDTO authentication) throws ChangeSetPersister.NotFoundException, ChangeSetPersister.NotFoundException {
+    public String generateToken(UsersDTO authentication) {
         Users user = userService.getUserByEmail(authentication.getEmail()).toEntity();
         String username = authentication.getName();
         Claims claims = Jwts.claims().setSubject(username);
