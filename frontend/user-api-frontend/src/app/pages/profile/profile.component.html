@@ -8,7 +8,7 @@
     
     <div class="header_profile">
         
-        <a class="text_login">{{ profile.name ?? 'Loading..'}}</a>
+        <a class="text_login">{{ profile?.name ?? 'Loading..'}}</a>
         
         <div class="profile_buttons">
             <button class="edit_button" (click)="toggleEdit()">{{ isEditable ? 'Conferma' : 'Modifica' }}</button>
@@ -30,15 +30,15 @@
     <div class="container_profile_info">
         <div class="profile_field">
             <label for="name" class="name_profile flex">Nome profilo</label>
-            <input type="text" id="name" value="{{profile.name}}" [attr.class]="profile.class" placeholder="Inserisci il tuo nome" [disabled]="!isEditable" />
+            <input type="text" id="name" value="{{profile?.name}}" [attr.class]="profile?.class" placeholder="Inserisci il tuo nome" [disabled]="!isEditable" />
         </div>
         <div class="profile_field">
             <label for="surname" class="surname_profile flex">Cognome profilo</label>
-            <input type="text" id="surname" value="{{profile.surname}}"  [attr.class]="profile.class" placeholder="Inserisci il tuo cognome" [disabled]="!isEditable" />
+            <input type="text" id="surname" value="{{profile?.surname}}"  [attr.class]="profile?.class" placeholder="Inserisci il tuo cognome" [disabled]="!isEditable" />
         </div>
         <div class="profile_field">
             <label for="email" class="email_profile flex">Email</label>
-            <input type="email" id="email" value="{{profile.email}}"  [attr.class]="profile.class"  placeholder="email@example.com" [disabled]="!isEditable" />
+            <input type="email" id="email" value="{{ profile?.email }}"  [attr.class]="profile?.class"  placeholder="email@example.com" [disabled]="!isEditable" />
         </div>
     </div>
 

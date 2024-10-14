@@ -3,6 +3,7 @@
 
   <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="container_form">
     <input type="text" placeholder="Name" class="input_email" formControlName="name" required>
+    <input type="text" placeholder="Surname" class="input_email" formControlName="surname" required>
     <input type="email" placeholder="Email" class="input_email" formControlName="email" required>
     <input type="email" placeholder="Ripeti email" class="input_email" formControlName="confirmEmail" required>
     <input type="password" placeholder="Password" class="input_password" formControlName="password" required>

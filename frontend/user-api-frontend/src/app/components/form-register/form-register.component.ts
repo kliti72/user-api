@@ -27,7 +27,8 @@ export class FormRegisterComponent {
     private router: Router 
   ) {
     this.registrationForm = this.fb.group({
-      name: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      surname: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       confirmEmail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
@@ -41,10 +42,11 @@ export class FormRegisterComponent {
 
     if(this.registrationForm?.valid) {
 
-      const { email, confirmEmail, password } = this.registrationForm.value;
+      const { name, surname, email, confirmEmail, password } = this.registrationForm.value;
 
       this.user = {
-        surname: "example",
+        name: name,
+        surname: surname,
         email: email,
         confirmEmail: confirmEmail,
         password: password,

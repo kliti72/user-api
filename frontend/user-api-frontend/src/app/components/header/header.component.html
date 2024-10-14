@@ -53,7 +53,7 @@
             <div class="user-menu">
                 <div class="profile-icon" (click)="toggleDropdown()">
                     <img alt="Profilo Utente" src="https://media.istockphoto.com/id/1386479313/it/foto/felice-millennial-donna-daffari-afroamericana-in-posa-isolata-su-bianco.jpg?s=612x612&w=0&k=20&c=YzxmAHPkvfnzNRoMTNBdfL9Ifj85OPpEgVxQF0-XG-c=" class="profile-image">
-                    <span class="user-name">Nome </span>
+                    <span class="user-name"> {{ profile?.name }} </span>
                 </div>
                 @if(dropdownVisible){
                     <div class="dropdown-menu">
@@ -72,7 +72,8 @@
                 <button type="submit">Iscriviti</button>
             </form>
             <div class="login-buttons">
-                <button class="login-btn" (click)="navigateToLogin()" >Registrati</button>
+                
+                <button class="login-btn" (click)="navigateToLogin()" >Accedi</button>
                 <button class="login-btn login-microsoft">
                     <i class="fab fa-microsoft"></i> Accedi con Microsoft
                 </button>

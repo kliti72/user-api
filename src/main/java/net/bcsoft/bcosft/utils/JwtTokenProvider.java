@@ -36,16 +36,18 @@ public class JwtTokenProvider {
     private RoleService roleService;
 
     // Generazione del token JWT con i ruoli
-    public String generateToken(UsersDTO authentication) {
-        Users user = userService.getUserByEmail(authentication.getEmail()).toEntity();
-        String username = authentication.getName();
+    public String generateToken(Users authentication) {
+
+        Users user = userService.getUserByEmail(authentication.getEmail());
+        System.out.print(user + "USER GENERATO" + user.getName());
+        String username = user.getName();
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("id", authentication.getId());
-        claims.put("name", authentication.getName());
-        claims.put("email", authentication.getEmail());
-        claims.put("registerDate", authentication.getRegisterDate());
-        claims.put("lastAccess", authentication.getLastAccess());
-        claims.put("roleId", authentication.getRoleId());
+        claims.put("id", user.getId());
+        claims.put("name", user.getName());
+        claims.put("email", user.getEmail());
+        claims.put("registerDate", user.getRegisterDate());
+        claims.put("lastAccess", user.getLastAccess());
+        claims.put("roleId", user.getId());
 
         // Estrai i ruoli e metti nel token come mappa
         RoleDTO roleDTO = roleService.getRoleByUserId(authentication.getId());

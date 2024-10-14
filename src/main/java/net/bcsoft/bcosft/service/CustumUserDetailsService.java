@@ -28,7 +28,7 @@ public class CustumUserDetailsService implements UserDetailsService {
 
         Users user = null;
 
-        user = userService.getUserByEmail(email).toEntity();
+        user = userService.getUserByEmail(email);
 
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword() , getAuthorities(user));
     }

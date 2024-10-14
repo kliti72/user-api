@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ApplicationRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FaqCardComponent } from '../../components/faq-card/faq-card.component';
 import { User } from '../../types/User.type';
-import { UserServiceService } from '../../services/user-service.service';
+import { UserServiceCookie } from '../../services/user-service-cookie.service';
 import { Router } from '@angular/router';
+import { HeaderComponent } from '../../components/header/header.component';
 
 @Component({
   selector: 'app-profile',
@@ -13,24 +14,31 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent implements OnInit{
 
-  isEditable: boolean = false;
-  profile! : User;
+  @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
 
-  constructor(private userService : UserServiceService, private router : Router) {}
+  
+  isEditable: boolean = false;
+  profile! : User | null;
+
+  constructor(private userCookieService : UserServiceCookie, private router : Router, private appRef: ApplicationRef) {}
 
   ngOnInit(): void {
-
-    if(this.userService.getUser() == null) {
-        this.router.navigate(['/login'])
-      } else {
-        this.profile = this.userService.getUser();
-        this.profile.class = "profile_field";
-        this.router.navigate(['/profile'])
-          
+    // Iscriviti all'osservabile currentUser per ottenere l'utente aggiornato
+    this.userCookieService.currentUser.subscribe(user => {
+      this.profile = user;
+      if (this.profile === null) {
+        this.router.navigate([""]); // Naviga alla home se l'utente è null
       }
+      console.log(this.profile);
+    });
+
+    // Inizializza profile con l'utente corrente
+    this.profile = this.userCookieService.getUser();
+    console.log(this.profile);
   }
   
   toggleEdit(): void {
+    if(this.profile != null)
     if(!this.isEditable) {
     this.profile.class = "profile_field borderTrue";
     } else {
@@ -42,6 +50,8 @@ export class ProfileComponent implements OnInit{
   saveProfile(): void {
     console.log('Profilo salvato:', this.profile);
     this.isEditable = false; 
+    if(this.profile != null)
     this.profile.class = "borderTrue"
   }
+  
 }

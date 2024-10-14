@@ -122,6 +122,7 @@ public class UserService {
 
     }
 
+    @Transactional
     public void delete (Long userId){
         Users result;
 
@@ -142,20 +143,12 @@ public class UserService {
     }
 
     @Transactional
-    public UsersDTO getUserByEmail(String email) {
+    public Users getUserByEmail(String email) {
         Users user;
+        user = userRepository.findByEmail(email);
+        System.out.println(user + "TROVATO" + user.getName());
 
-        try {
-            user = userRepository.findByEmail(email);
-        }catch (RuntimeException e){
-            throw new InternalException("Utente non trovato");
-        }
-
-        if(user == null){
-            throw new NotFound("utente non trovato");
-        }
-        return new UsersDTO(user.getId(), user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getRegisterDate(), user.getLastAccess(), user.getRole().getId());
-
+        return user;
 
     }
 

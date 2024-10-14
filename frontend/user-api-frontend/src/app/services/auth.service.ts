@@ -3,39 +3,53 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../types/User.type';
 import { Role } from '../types/Role.type';
-import { UserServiceService } from './user-service.service';
+import { UserServiceCookie } from './user-service-cookie.service';
+import { jwtToken } from '../types/JwtToken.type';
+import { JwtDecodeService } from './jwt-decode.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   
-  user?: User;
+  user?: User | null;
   role?: Role;
+  jwtToken?: jwtToken;
   
 
   private apiUrl = 'https://localhost:8443/auth'; // Sostituisci con l'URL del tuo backend
 
-  constructor(private http: HttpClient, private userService : UserServiceService) {}
-
+  constructor(
+    private http: HttpClient, 
+    private userServiceCookie : UserServiceCookie,
+    private jwtDecodeService : JwtDecodeService
+  ) {}
 
   register(user: User): Observable<User> {
-    console.log("Richiesta http post iniziata!", JSON.stringify(user));
+    this.userServiceCookie.setUser(user);    
+    return this.postRegister(user);
+  }
+
+  login(user: User) : Observable<jwtToken> {
+    this.user = this.userServiceCookie.getUser() ?? null;
+
+    if(this.user != null) {
+      this.userServiceCookie.setUser(user);
+    } 
+
+    return this.postLogin(user);
+  }
+
+  postRegister(user: User) : Observable<User> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.userService.setUser(user);
+    this.userServiceCookie.setUser(user);
+    
     return this.http.post(`${this.apiUrl}/register/`, user, { headers });
   }
 
-  login(user: User): Observable<any> {
-    const body = { 
-      email: user.email, 
-      password: user.password 
-    };
+  postLogin(user: User) : Observable<jwtToken> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
-    return this.http.post(`${this.apiUrl}/login/`, body, { headers });
+    return this.http.post(`${this.apiUrl}/login/`, user, { headers });
   }
-
-  
 
 }

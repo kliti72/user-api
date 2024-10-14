@@ -7,6 +7,7 @@ public class JwtResponseDTO {
 
     public JwtResponseDTO(String token) {
         this.token = token;
+
     }
 
 

@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import { JwtDecodeService } from './jwt-decode.service';
 
-import { UserServiceService } from './user-service.service';
 
-describe('UserServiceService', () => {
-  let service: UserServiceService;
+
+
+describe('JwtDecodeService', () => {
+  let service: JwtDecodeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserServiceService);
+    service = TestBed.inject(JwtDecodeService);
   });
 
   it('should be created', () => {
