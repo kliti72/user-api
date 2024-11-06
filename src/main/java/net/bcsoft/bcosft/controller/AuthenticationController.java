@@ -6,7 +6,6 @@ import net.bcsoft.bcosft.dto.UsersDTO;
 import net.bcsoft.bcosft.entity.Users;
 import net.bcsoft.bcosft.exception.PasswordNotCorrectException;
 import net.bcsoft.bcosft.service.UserService;
-import net.bcsoft.bcosft.utils.JwtTokenProvider;
 import org.apache.catalina.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -43,16 +42,17 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register/")
-    public ResponseEntity<UsersDTO> register(@RequestBody UsersDTO user) {
+    public ResponseEntity<String> register(@RequestBody UsersDTO user) {
         UsersDTO userDTO  = userService.insert(user);
-
-        return ResponseEntity.ok(userDTO);
+        String token = jwtTokenProvider.generateToken(userDTO.toEntity());
+        return ResponseEntity.ok(token);
     }
 
     @GetMapping("/validate/")
     public ResponseEntity<Boolean> tokenToUserDTO(@RequestHeader("Authorization") String token) {
         try {
             jwtTokenProvider.validateToken(token);
+            System.out.print("TOKEN DECRIPT" + jwtTokenProvider.tokenToUserDTO(token).getName());
         } catch (DataIntegrityViolationException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

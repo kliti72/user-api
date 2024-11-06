@@ -1,4 +1,4 @@
-export const API: string = "https://localhost:8443";
+export const API: string = "http://localhost:8080";
 
 export const environment = {
     PROJECT: {
@@ -39,10 +39,10 @@ export const environment = {
     },
     API: {
         AUTHENTICATION: {
-            POST_LOGIN: `${API}/login/`,
-            POST_REGISTER: `${API}/register/`,
-            GET_VALIDATE: `${API}/validate/`,
-            GET_CURRENT_USER: `${API}/currunt-user/`,
+            POST_LOGIN: `${API}/auth/login/`,
+            POST_REGISTER: `${API}/auth/register/`,
+            GET_VALIDATE: `${API}/auth/validate/`,
+            GET_CURRENT_USER: `${API}/auth/currunt-user/`,
         },
     },
     DEBUG: {

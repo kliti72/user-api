@@ -19,7 +19,7 @@ public class SecurityConfig {
 
     @Autowired
     private CustumUserDetailsService customUserDetailsService;
-
+    
     @Bean
     @Description("Configura il filtro di sicurezza")
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
