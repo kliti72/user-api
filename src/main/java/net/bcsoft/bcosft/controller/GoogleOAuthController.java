@@ -22,8 +22,8 @@ public class GoogleOAuthController {
 
     private static final String TOKEN_URL = "https://oauth2.googleapis.com/token";
     private static final String CLIENT_ID = "138654465599-2ii8lam4iqp1mdj0je7sq0kdtcn11680.apps.googleusercontent.com";
-    private static final String CLIENT_SECRET = "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";
-    private static final String REDIRECT_URI = "https://localhost:4200";
+    private static final String CLIENT_SECRET = "";
+    private static final String REDIRECT_URI = "";
 
     @PostMapping("/oAuthGoogle/exchange-code/")
     public ResponseEntity<String> exchangeCode(@RequestParam("code") String code) {
