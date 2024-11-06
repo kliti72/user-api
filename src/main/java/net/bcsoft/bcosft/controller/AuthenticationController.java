@@ -31,12 +31,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login/")
-    public ResponseEntity<JwtResponseDTO> authenticateUser(@RequestBody UsersDTO userDTO) {
+    public ResponseEntity<Users> authenticateUser(@RequestBody UsersDTO userDTO) {
 
         Users user = userService.getUserByEmail(userDTO.getEmail());
 
         if(userDTO.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.ok(new JwtResponseDTO(jwtTokenProvider.generateToken(user)));
+            return ResponseEntity.ok(user);
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

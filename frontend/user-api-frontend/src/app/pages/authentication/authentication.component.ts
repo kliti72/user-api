@@ -6,7 +6,7 @@ import { FrattaleLoadingComponent } from '../../components/frattale-loading/frat
 import { CustomButtonComponent } from '../../components/custom-button/custom-button.component';
 import { HeaderComponent } from '../../components/header/header.component';
 import { Router } from '@angular/router';
-import { UserServiceCookie } from '../../services/user-service-cookie.service';
+import { ManageServiceCookie } from '../../services/cookie/manage-cookie.service';
 
 @Component({
   selector: 'app-authentication',
@@ -17,23 +17,17 @@ import { UserServiceCookie } from '../../services/user-service-cookie.service';
 
 })
 export class AuthenticationComponent implements OnInit {
+  
   SwitchRegister = false;
-
-
-  constructor(private router : Router, private authCookieService : UserServiceCookie){}
+  constructor(private router : Router, private manageServiceCookie : ManageServiceCookie){}
 
   ngOnInit(): void {
-
-    if(this.authCookieService.getUser() != null) {
-      this.router.navigate(["/profile"])
-    }
-
-    if(this.router.url === "/login") {
-      this.SwitchRegister = true;
-    }
+    this.router.url === "/login" ? this.SwitchRegister = true : this.SwitchRegister = false;  
   }
 
-
+  turnLogin() {
+    this.SwitchRegister =! this.SwitchRegister;
+  }
 
   btnLogin = {
     label: "Hai già un account? Premi qui per accedere",
@@ -43,13 +37,5 @@ export class AuthenticationComponent implements OnInit {
   btnRegister = {
     label: "Non hai un account? ",
     class: "authentication"
-  }
-
-  turnLogin() {
-    if(this.SwitchRegister){
-      this.SwitchRegister = false;
-    } else {
-      this.SwitchRegister = true;
-    }
   }
 }

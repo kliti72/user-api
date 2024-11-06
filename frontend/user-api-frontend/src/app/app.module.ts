@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from "./components/header/header.component";
 import { WelcomeContainerComponent } from './components/welcome-container/welcome-container.component';
 import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { CallbackComponent } from './components/callback/callback.component';
 
 
 @NgModule({

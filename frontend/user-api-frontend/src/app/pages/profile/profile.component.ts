@@ -1,7 +1,7 @@
 import { ApplicationRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FaqCardComponent } from '../../components/faq-card/faq-card.component';
 import { User } from '../../types/User.type';
-import { UserServiceCookie } from '../../services/user-service-cookie.service';
+import { ManageServiceCookie } from '../../services/cookie/manage-cookie.service';
 import { Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 
@@ -20,11 +20,11 @@ export class ProfileComponent implements OnInit{
   isEditable: boolean = false;
   profile! : User | null;
 
-  constructor(private userCookieService : UserServiceCookie, private router : Router, private appRef: ApplicationRef) {}
+  constructor(private ManageServiceCookie : ManageServiceCookie, private router : Router, private appRef: ApplicationRef) {}
 
   ngOnInit(): void {
     // Iscriviti all'osservabile currentUser per ottenere l'utente aggiornato
-    this.userCookieService.currentUser.subscribe(user => {
+    this.ManageServiceCookie.currentUser.subscribe(user => {
       this.profile = user;
       if (this.profile === null) {
         this.router.navigate([""]); // Naviga alla home se l'utente è null
@@ -32,9 +32,6 @@ export class ProfileComponent implements OnInit{
       console.log(this.profile);
     });
 
-    // Inizializza profile con l'utente corrente
-    this.profile = this.userCookieService.getUser();
-    console.log(this.profile);
   }
   
   toggleEdit(): void {

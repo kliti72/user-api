@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
 import { User } from '../../types/User.type';
-import { Role } from '../../types/Role.type';
+import { OAuthService } from '../../services/oAuth/o-auth.service';
 
 @Component({
   selector: 'app-form-register',
@@ -23,8 +22,9 @@ export class FormRegisterComponent {
 
   constructor(
     private fb: FormBuilder,
-    private myService: AuthService,
-    private router: Router 
+    private authService: AuthService,
+    private oAuthService: OAuthService,
+    private router: Router,
   ) {
     this.registrationForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -35,15 +35,9 @@ export class FormRegisterComponent {
     });
   }
 
-  ngOnInit(): void {
-  }
-
   onSubmit() {
-
-    if(this.registrationForm?.valid) {
-
+    if(this.registrationForm.valid) {
       const { name, surname, email, confirmEmail, password } = this.registrationForm.value;
-
       this.user = {
         name: name,
         surname: surname,
@@ -55,9 +49,8 @@ export class FormRegisterComponent {
         lastAccess: "2023-09-10",
       }
 
-        this.myService.register(this.user).subscribe({
+        this.authService.postRegister(this.user).subscribe({
           next: (user: User) => {
-            console.log("REGISTRATO");
             console.log(user);
             this.router.navigate(['/profile']);
           },
@@ -66,10 +59,15 @@ export class FormRegisterComponent {
             console.log(error);
           }
         });
-      
-    } else {
-      console.log("ERRORE sulla validazione del form");
-      console.log(this.registrationForm?.value)
+         
     }
+  }
+
+  oAuthGoogleGetAccessCode() {
+    this.oAuthService.oAuthGoogleGetAccessCode();
+  }
+
+  oAuthGitHubAccessCode() {
+    this.oAuthService.oAuthGitHubAccessCode()
   }
 }

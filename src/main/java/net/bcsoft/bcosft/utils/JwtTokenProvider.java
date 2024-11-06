@@ -120,4 +120,14 @@ public class JwtTokenProvider {
 
         return new CustomUserDetails(userDTO.getName(), userDTO.getEmail(), "", authorities);
     }
+
+    public static String cleanToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            // Rimuove il prefisso "Bearer " e restituisce solo il token
+            return authorizationHeader.substring(7);
+        }
+        // Restituisce il token originale se non c'è il prefisso "Bearer "
+        return authorizationHeader;
+    }
+
 }
