@@ -1,6 +1,5 @@
 package net.bcsoft.bcosft;
 
-import net.bcsoft.bcosft.controller.RoleController;
 import net.bcsoft.bcosft.dto.RoleDTO;
 import net.bcsoft.bcosft.exception.BadRequestException;
 import net.bcsoft.bcosft.exception.ConflictException;

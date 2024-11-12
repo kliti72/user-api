@@ -24,12 +24,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/")
-    public ResponseEntity<List <UsersDTO>>get(){
-        //la lista è uguale al metodo di selectAll
-        List <UsersDTO> userList = userService.selectAll();
-        return ResponseEntity.ok(userList);
-    }
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<UsersDTO> getById(@PathVariable Long userId) {

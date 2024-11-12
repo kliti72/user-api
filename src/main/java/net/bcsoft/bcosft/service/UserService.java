@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -24,32 +23,36 @@ public class UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    public Optional<Integer> login(UsersDTO userDTO) {
 
-    public List<UsersDTO> selectAll() {
-        List <Users> usersList;
-        try{
-            usersList = userRepository.findAll();
-        }catch (RuntimeException e){
-            throw new InternalException("Errore recupero utenti");
-        }
-        List <UsersDTO> usersDTOList = new ArrayList<>();
+        Users user = userRepository.findByEmail(userDTO.getEmail());
 
-        if(usersList.isEmpty()) {
-            throw new NoContentException("Non presenti user");
+        if(user.getPassword().equals(userDTO.getPassword())){
+            return Optional.of(1);
         }
-        for (Users users : usersList) {
-            UsersDTO usersDTO = new UsersDTO(users.getId(), users.getName(), users.getSurname(), users.getEmail(), users.getPassword(), users.getRegisterDate(), users.getLastAccess(), users.getRole().getId());
-            usersDTOList.add(usersDTO);
-        }
-        return usersDTOList;
+
+        return Optional.empty();
     }
+
+    public Optional<Integer> register(UsersDTO userDTO) {
+
+        Users user = userRepository.save(userDTO.toEntity());
+
+        if(user != null) {
+            return Optional.of(1);
+        } else {
+            return Optional.empty();
+        }
+    }
+
 
     public UsersDTO selectById(Long userId) {
         Users users;
+
         try {
             users = userRepository.findById(userId)
                     .orElseThrow(NotFoundException::new);
-        }catch (RuntimeException | NotFoundException e ) {
+        } catch (RuntimeException | NotFoundException e ) {
             throw new InternalException("Errore recupero utenti");
         }
 
@@ -91,6 +94,7 @@ public class UserService {
 
     @Transactional
     public UsersDTO update(Long userId, UsersDTO usersDTO) {
+
         Users users = usersDTO.toEntity();
         Users oldUser;
         Role roleCapture;

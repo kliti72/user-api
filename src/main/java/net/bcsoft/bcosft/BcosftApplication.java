@@ -14,19 +14,4 @@ public class BcosftApplication {
 		SpringApplication.run(BcosftApplication.class, args);
 	}
 
-
-
-
-
-	public static void metodo() {
-		List<Integer> listaInt = new ArrayList<>();
-
-		listaInt.add(1);
-		listaInt.add(2);
-		listaInt.add(3);
-
-
-	}
-
-
 }
