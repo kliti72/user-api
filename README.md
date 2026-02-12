@@ -1,1 +1,3 @@
-Applicazione che permette di registrare i utenti, gestire i suoi ruoli, e accedere e registrarsi tramite, microsoft e github.
+Anguar & Spring Boot Authentication.
+
+This is a example, not have a security layer.
